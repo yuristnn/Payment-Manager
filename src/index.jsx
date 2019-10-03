@@ -9,7 +9,6 @@ import thunk from 'redux-thunk';
 import * as firebase from 'firebase/app';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyDEcI8ANwzW9YSv3cCpt0xDw5So6_fkJFA',
   authDomain: 'payment-manager-6c2b3.firebaseapp.com',
   databaseURL: 'https://payment-manager-6c2b3.firebaseio.com',
   projectId: 'payment-manager-6c2b3',
