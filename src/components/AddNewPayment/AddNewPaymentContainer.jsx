@@ -1,23 +1,18 @@
 import { connect } from 'react-redux';
 import {
-  handleNewPayment,
-  handleCreatePayment,
-  handleCancelPayment,
+  handleCancelPayment
 } from '../../store/actionCreators';
-import AddNewPayment from './AddNewPayment';
+import { AddNewPayment } from './AddNewPayment';
 
 const mapStateToProps = state => ({
-  balance: state.balance,
-  sort: state.sort,
+  balance: state.balance
 });
 
 const mapDispatchToProps = {
-  handleNewPayment,
-  handleCreatePayment,
-  handleCancelPayment,
+  handleCancelPayment
 };
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(AddNewPayment);

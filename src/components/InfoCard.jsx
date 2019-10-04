@@ -11,7 +11,7 @@ import 'typeface-roboto';
 
 class InfoCard extends Component {
   handleClickOutside = () => {
-    this.props.handleOpenInfo();
+    this.props.handleCloseInfo();
   };
 
   render() {

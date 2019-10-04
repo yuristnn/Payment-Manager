@@ -13,8 +13,9 @@ import {
   handleCreatePayment,
   handleCancelPayment,
   handleUserExit,
+  handleCloseInfo
 } from '../../store/actionCreators';
-import Payments from './Payments';
+import { Payments } from './Payments';
 
 const mapStateToProps = state => ({
   email: state.email,
@@ -48,6 +49,7 @@ const mapDispatchToProps = {
   handleChangeSearch,
 
   handleOpenInfo,
+  handleCloseInfo,
 
   handleChangeFilterAmountMin,
   handleChangeFilterAmountMax,

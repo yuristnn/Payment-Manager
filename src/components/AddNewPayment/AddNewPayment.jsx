@@ -1,150 +1,107 @@
-import React, { Component } from 'react';
-import { styled } from '@material-ui/styles';
-import Box from '@material-ui/core/Box';
+import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
-import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import {
-  KeyboardDatePicker,
-  MuiPickersUtilsProvider,
-} from '@material-ui/pickers';
+import { KeyboardDatePicker } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import 'typeface-roboto';
 import 'date-fns';
+import {
+  AddNewPaymentForm,
+  AddNewPaymentHead,
+  AddNewPaymentInput,
+  AddNewPaymentInputAmount,
+  AddNewPaymentInputWrapper,
+  AddNewPaymentButtonWrapper,
+  AddNewPaymentStatus,
+  AddNewPaymentDate,
+  AddNewPaymentInputAccountNumber
+} from './common/styles'
 
-class AddNewPayment extends Component {
-  state = {
-    name: { text: '', isEmpty: false },
-    comment: '',
-    date: new Date(
-      new Date().getTime() - new Date().getTimezoneOffset() * 60000,
-    )
-      .toISOString()
-      .slice(0, 10),
-    status: 'Создан',
-    amount: { text: '', isEmpty: false },
-    receiver: { text: '', isEmpty: false },
-    accountNumber: { text: '', isEmpty: false },
-    bank: { text: '', isEmpty: false },
-    bic: { text: '', isEmpty: false },
-    corresp: { text: '', isEmpty: false },
+export const AddNewPayment = ({ loadNewPayment, handleCancelPayment, balance }) => {
+  const [name, setName] = useState({text: '', isEmpty: false})
+  const [comment, setComment] = useState('')
+  const [date, setDate] = useState(new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000,)
+    .toISOString()
+    .slice(0, 10))
+  const [status, setStatus] = useState('Создан')
+  const [amount, setAmount] = useState({ text: '', isEmpty: false })
+  const [receiver, setReceiver] = useState({ text: '', isEmpty: false })
+  const [accountNumber, setAccountNumber] = useState({ text: '', isEmpty: false })
+  const [bank, setBank] = useState({ text: '', isEmpty: false })
+  const [bic, setBic] = useState({ text: '', isEmpty: false })
+  const [corresp, setCorresp] = useState({ text: '', isEmpty: false })
+  const [isErrorEmpty, setIsErrorEmpty] = useState(false)
+
+  const handleNameChange = name => {
+    setName({text: name.slice(0, 50), isEmpty: name === '' ? false : true})
   };
 
-  handleNameChange = name => {
-    this.setState(() => ({
-      ...this.state,
-      name: {
-        ...this.state.name,
-        text: name.slice(0, 50),
-        isEmpty: name === '' ? false : true,
-      },
-    }));
+  const handleDateChange = date => {
+    setDate(new Date(date.getTime() - date.getTimezoneOffset() * 60000)
+    .toISOString()
+    .slice(0, 10))
   };
 
-  handleCommentChange = comment => {
-    this.setState(() => ({ ...this.state, comment: comment.slice(0, 200) }));
+  const handleChangeAmount = amount => {
+    setAmount({
+      text: Math.abs(+amount) === 0 ? '' : Math.abs((+amount).toFixed(2)),
+      isEmpty: amount > balance || amount === '' || amount < 0 ? false : true
+    })
   };
 
-  handleDateChange = date => {
-    this.setState(() => ({
-      ...this.state,
-      date: new Date(date.getTime() - date.getTimezoneOffset() * 60000)
-        .toISOString()
-        .slice(0, 10),
-    }));
+  const handleReceiverChange = receiver => {
+    setReceiver({
+      text: receiver.slice(0, 100),
+      isEmpty: receiver === '' ? false : true,
+    })
   };
 
-  handleChangeStatus = status => {
-    this.setState(() => ({ ...this.state, status }));
+  const handleAccountNumberChange = accountNumber => {
+    setAccountNumber({
+      text: accountNumber,
+      isEmpty: /^[0-9]{20}$/.test(accountNumber)
+    })
   };
 
-  handleChangeAmount = amount => {
-    this.setState(() => ({
-      ...this.state,
-      amount: {
-        ...this.state.amount,
-        text: Math.abs(+amount) === 0 ? '' : Math.abs((+amount).toFixed(2)),
-        isEmpty:
-          amount > this.props.balance || amount === '' || amount < 0
-            ? false
-            : true,
-      },
-    }));
+  const handleBankChange = bank => {
+    setBank({
+      text: bank.toUpperCase().slice(0, 100),
+      isEmpty: bank === '' ? false : true
+    })
   };
 
-  handleReceiverChange = receiver => {
-    this.setState(() => ({
-      ...this.state,
-      receiver: {
-        ...this.state.receiver,
-        text: receiver.slice(0, 100),
-        isEmpty: receiver === '' ? false : true,
-      },
-    }));
+  const handleBicChange = bic => {
+    setBic({
+      text: bic,
+      isEmpty: /^[0-9]{9}$/.test(bic)
+    })
   };
 
-  handleAccountNumberChange = accountNumber => {
-    this.setState(() => ({
-      ...this.state,
-      accountNumber: {
-        ...this.state.accountNumber,
-        text: accountNumber,
-        isEmpty: /^[0-9]{20}$/.test(accountNumber),
-      },
-    }));
+  const handleCorrespChange = corresp => {
+    setCorresp({
+      text: corresp,
+      isEmpty: /^[0-9]{20}$/.test(corresp)
+    })
   };
 
-  handleBankChange = bank => {
-    this.setState(() => ({
-      ...this.state,
-      bank: {
-        ...this.state.bank,
-        text: bank.toUpperCase().slice(0, 100),
-        isEmpty: bank === '' ? false : true,
-      },
-    }));
-  };
-
-  handleBicChange = bic => {
-    this.setState(() => ({
-      ...this.state,
-      bic: {
-        ...this.state.bic,
-        text: bic,
-        isEmpty: /^[0-9]{9}$/.test(bic),
-      },
-    }));
-  };
-
-  handleCorrespChange = corresp => {
-    this.setState(() => ({
-      ...this.state,
-      corresp: {
-        ...this.state.corresp,
-        text: corresp,
-        isEmpty: /^[0-9]{20}$/.test(corresp),
-      },
-    }));
-  };
-
-  render() {
-    const { loadNewPayment, handleCancelPayment } = this.props;
-
-    const {
-      name,
-      comment,
-      status,
-      amount,
-      date,
-      receiver,
-      accountNumber,
-      bank,
-      bic,
-      corresp,
-    } = this.state;
+  const handleCheckSendData = () => {
+    if (name.isEmpty && amount.isEmpty && receiver.isEmpty && accountNumber.isEmpty && bank.isEmpty && bic.isEmpty && corresp.isEmpty) {
+      loadNewPayment({
+        name: name.text,
+        comment,
+        date,
+        status,
+        amount: amount.text,
+        receiver: receiver.text,
+        accountNumber: accountNumber.text,
+        bank: bank.text,
+        bic: bic.text,
+        corresp: corresp.text})
+    } else {
+      setIsErrorEmpty(true)
+    }               
+  }
 
     return (
       <AddNewPaymentForm>
@@ -155,9 +112,10 @@ class AddNewPayment extends Component {
           label="Наименование платежа"
           value={name.text}
           error={!name.isEmpty}
+          helperText = {isErrorEmpty && !name.isEmpty && 'Введите наименование платежа'}
           variant="outlined"
           margin="dense"
-          onChange={event => this.handleNameChange(event.target.value)}
+          onChange={event => handleNameChange(event.target.value)}
         />
 
         <AddNewPaymentInput
@@ -167,7 +125,7 @@ class AddNewPayment extends Component {
           rows="3"
           variant="outlined"
           margin="dense"
-          onChange={event => this.handleCommentChange(event.target.value)}
+          onChange={event => setComment(event.target.value.slice(0, 200))}
         />
 
         <AddNewPaymentInputWrapper>
@@ -183,7 +141,7 @@ class AddNewPayment extends Component {
               disablePast="true"
               margin="normal"
               value={date}
-              onChange={this.handleDateChange}
+              onChange={handleDateChange}
               KeyboardButtonProps={{
                 'aria-label': 'change date',
               }}
@@ -191,7 +149,7 @@ class AddNewPayment extends Component {
           </AddNewPaymentDate>
           <AddNewPaymentStatus
             value={status}
-            onChange={event => this.handleChangeStatus(event.target.value)}
+            onChange={event => setStatus(event.target.value)}
           >
             <MenuItem value="Создан">Создан</MenuItem>
             <MenuItem value="В работе">В работе</MenuItem>
@@ -202,10 +160,11 @@ class AddNewPayment extends Component {
             error={!amount.isEmpty}
             type="number"
             value={amount.text}
+            helperText = {isErrorEmpty && !amount.isEmpty && 'Введите сумму платежа'}
             label="Cумма"
             variant="outlined"
             margin="dense"
-            onChange={event => this.handleChangeAmount(event.target.value)}
+            onChange={event => handleChangeAmount(event.target.value)}
             InputProps={{
               endAdornment: <InputAdornment position="end">₽</InputAdornment>,
             }}
@@ -216,10 +175,11 @@ class AddNewPayment extends Component {
           required
           label="Получатель платежа"
           value={receiver.text}
+          helperText = {isErrorEmpty && !receiver.isEmpty && 'Введите название получателя платежа'}
           error={!receiver.isEmpty}
           variant="outlined"
           margin="dense"
-          onChange={event => this.handleReceiverChange(event.target.value)}
+          onChange={event => handleReceiverChange(event.target.value)}
         />
 
         <AddNewPaymentInputAccountNumber
@@ -227,20 +187,22 @@ class AddNewPayment extends Component {
           type="number"
           label="Номер счета получателя платежа"
           value={accountNumber.text}
+          helperText = {isErrorEmpty && !accountNumber.isEmpty && 'Введите корректный номер счета'}
           error={!accountNumber.isEmpty}
           variant="outlined"
           margin="dense"
-          onChange={event => this.handleAccountNumberChange(event.target.value)}
+          onChange={event => handleAccountNumberChange(event.target.value)}
         />
 
         <AddNewPaymentInput
           required
           label="Банк получателя платежа"
           value={bank.text}
+          helperText = {isErrorEmpty && !bank.isEmpty && 'Введите наименование банка'}
           error={!bank.isEmpty}
           variant="outlined"
           margin="dense"
-          onChange={event => this.handleBankChange(event.target.value)}
+          onChange={event => handleBankChange(event.target.value)}
         />
 
         <AddNewPaymentInput
@@ -248,10 +210,11 @@ class AddNewPayment extends Component {
           type="number"
           label="БИК банка"
           value={bic.text}
+          helperText = {isErrorEmpty && !bic.isEmpty && 'Введите корректный БИК банка'}
           error={!bic.isEmpty}
           variant="outlined"
           margin="dense"
-          onChange={event => this.handleBicChange(event.target.value)}
+          onChange={event => handleBicChange(event.target.value)}
         />
 
         <AddNewPaymentInput
@@ -259,113 +222,27 @@ class AddNewPayment extends Component {
           type="number"
           label="Корр.счет банка"
           value={corresp.text}
+          helperText = {isErrorEmpty && !corresp.isEmpty && 'Введите корректный корр счет'}
           error={!corresp.isEmpty}
           variant="outlined"
           margin="dense"
-          onChange={event => this.handleCorrespChange(event.target.value)}
+          onChange={event => handleCorrespChange(event.target.value)}
         />
 
         <AddNewPaymentButtonWrapper>
           <Button
             variant="contained"
             color="primary"
-            onClick={
-              name.isEmpty &&
-              amount.isEmpty &&
-              receiver.isEmpty &&
-              accountNumber.isEmpty &&
-              bank.isEmpty &&
-              bic.isEmpty &&
-              corresp.isEmpty
-                ? () =>
-                    loadNewPayment({
-                      name: name.text,
-                      comment,
-                      date,
-                      status,
-                      amount: amount.text,
-                      receiver: receiver.text,
-                      accountNumber: accountNumber.text,
-                      bank: bank.text,
-                      bic: bic.text,
-                      corresp: corresp.text,
-                    })
-                : null
-            }
+            onClick={handleCheckSendData}
           >
             Создать
           </Button>
-          <Button variant="contained" onClick={() => handleCancelPayment()}>
+          <Button variant="contained" onClick={handleCancelPayment}>
             Отмена
           </Button>
         </AddNewPaymentButtonWrapper>
       </AddNewPaymentForm>
     );
-  }
 }
 
-export default AddNewPayment;
 
-const AddNewPaymentForm = styled(Box)({
-  height: 'auto',
-  width: '70%',
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'center',
-  alignItems: 'center',
-  borderRadius: '1vh',
-  backgroundColor: '#fff',
-  padding: '20px',
-  zIndex: 1,
-});
-
-const AddNewPaymentHead = styled(Typography)({
-  fontSize: '3vh',
-});
-
-const AddNewPaymentInput = styled(TextField)({
-  width: '100%',
-  marginBottom: '0.5vh',
-});
-
-const AddNewPaymentInputAmount = styled(TextField)({
-  width: '35%',
-});
-
-const AddNewPaymentInputWrapper = styled(Box)({
-  height: 70,
-  width: '100%',
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'baseline',
-  marginTop: '0.5vh',
-});
-
-const AddNewPaymentButtonWrapper = styled(Box)({
-  width: '35%',
-  display: 'flex',
-  justifyContent: 'space-between',
-  marginTop: 10,
-});
-
-const AddNewPaymentStatus = styled(Select)({
-  width: '30%',
-  margin: '0 20px',
-});
-
-const AddNewPaymentDate = styled(MuiPickersUtilsProvider)({
-  width: '30%',
-});
-
-const AddNewPaymentInputAccountNumber = styled(TextField)({
-  width: '100%',
-  marginBottom: '0.5vh',
-  '&::-webkit-inner-spin-button': {
-    WebkitAppearance: 'none',
-    margin: 0,
-  },
-  '&::-webkit-outer-spin-button': {
-    WebkitAppearance: 'none',
-    margin: 0,
-  },
-});
