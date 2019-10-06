@@ -2,11 +2,10 @@ import { connect } from 'react-redux';
 import { logInUser } from '../../store/actionCreators';
 import { Login } from './Login';
 
-const mapStateToProps = state => ({
-});
+const mapStateToProps = state => ({});
 
 const mapDispatchToProps = {
-  logInUser
+  logInUser,
 };
 
 export default connect(

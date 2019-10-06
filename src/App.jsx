@@ -23,19 +23,23 @@ const enhance = connect(
   mapDispatchToProps,
 );
 
-export default enhance(({isAuthorized, logInUser}) => {
-  const [isLoading, setState] = useState(true)
+export default enhance(({ isAuthorized, logInUser }) => {
+  const [isLoading, setState] = useState(true);
 
-  useEffect(()=> {
-    firebase.auth().onAuthStateChanged((user) => {
-      setState(false)
-      user && logInUser()
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged(user => {
+      setState(false);
+      user && logInUser();
     });
-  }, [logInUser])
-
-  if (isLoading) return <Loading><LoadingText>Загрузка...</LoadingText></Loading>
+  }, [logInUser]);
+  if (isLoading)
+    return (
+      <Loading>
+        <LoadingText>Загрузка...</LoadingText>
+      </Loading>
+    );
   return <>{isAuthorized ? <Payments /> : <Login />}</>;
-})
+});
 
 const Loading = styled(Box)({
   position: 'absolute',
@@ -50,6 +54,6 @@ const Loading = styled(Box)({
 });
 
 const LoadingText = styled(Typography)({
-  color: "#fff",
-  fontSize: "5vh"
+  color: '#fff',
+  fontSize: '5vh',
 });

@@ -13,7 +13,7 @@ import {
   handleCreatePayment,
   handleCancelPayment,
   handleUserExit,
-  handleCloseInfo
+  handleCloseInfo,
 } from '../../store/actionCreators';
 import { Payments } from './Payments';
 

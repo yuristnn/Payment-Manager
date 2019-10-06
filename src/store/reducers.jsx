@@ -95,24 +95,23 @@ export default (state = initialState, action) => {
         isOpenSearch: false,
       };
     case HANDLE_CHANGE_SEARCH:
-      
       return {
         ...state,
         isOpenSearch: payload.isOpenSearch,
         search: payload.arrSearch,
       };
     case HANDLE_OPEN_INFO:
-      const {isOpenInfo, infoCard} = payload
+      const { isOpenInfo, infoCard } = payload;
       return {
         ...state,
         isOpenInfo,
-        infoCard
+        infoCard,
       };
     case HANDLE_CLOSE_INFO:
       return {
         ...state,
-        isOpenInfo: !state.isOpenInfo
-      }
+        isOpenInfo: !state.isOpenInfo,
+      };
     case HANDLE_CHANGE_FILTER_AMOUNT_MIN:
       return {
         ...state,
@@ -142,11 +141,11 @@ export default (state = initialState, action) => {
     case HANDLE_CANCEL_PAYMENT:
       return { ...state, isOpenNew: false };
     case HANDLE_SORT_DIRECTION:
-      const {sortList, paylist} = payload
+      const { sortList, paylist } = payload;
       return {
         ...state,
         sortList,
-        paylist
+        paylist,
       };
 
     default:
