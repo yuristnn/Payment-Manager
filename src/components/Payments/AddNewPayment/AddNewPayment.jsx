@@ -23,6 +23,7 @@ export const AddNewPayment = ({
   handleCancelPayment,
   balance,
 }) => {
+
   const [name, setName] = useState({ text: '', isEmpty: false });
   const [comment, setComment] = useState('');
   const [date, setDate] = useState(
@@ -126,7 +127,6 @@ export const AddNewPayment = ({
   return (
     <AddNewPaymentForm>
       <AddNewPaymentHead>Новый платеж</AddNewPaymentHead>
-
       <AddNewPaymentInput
         required
         label="Наименование платежа"
