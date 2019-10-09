@@ -5,11 +5,6 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
-import * as firebase from 'firebase/app';
-import 'firebase/database';
-import 'firebase/auth';
-import 'date-fns';
-import 'typeface-roboto';
 import {
   Wrapper,
   CardInfoWrapper,
@@ -36,45 +31,37 @@ export const Payments = ({
   sortList,
 
   loadState,
-  handleCancelPayment,
   handleOpenInfo,
   handleSortDirection,
+  handleLoadNewPayment,
 }) => {
-  useEffect(() => {
-    loadState();
-  }, [loadState]);
 
-  const loadNewPayment = item => {
-    handleCancelPayment();
-    const paymentData = {
-      id: paylist.length + 1,
-      name: item.name,
-      comment: item.comment,
-      date: item.date,
-      status: item.status,
-      amount: item.amount,
-      details: {
-        receiver: item.receiver,
-        accountNumber: item.accountNumber,
-        bank: item.bank,
-        bic: item.bic,
-        corresp: item.corresp,
-      },
-    };
-    const newBalance = balance - item.amount;
+  useEffect(() => { loadState() }, [loadState]);
 
-    firebase
-      .database()
-      .ref(firebase.auth().currentUser.uid)
-      .child('paylist')
-      .push(paymentData);
-
-    firebase
-      .database()
-      .ref(firebase.auth().currentUser.uid + '/balance')
-      .set(newBalance);
-
-    loadState();
+  const loadNewPayment = value => {
+    const id = paylist.length + 1;
+    const {name,
+      comment,
+      date,
+      status,
+      amount} = value;
+    const details = {
+      receiver: value.receiver,
+      accountNumber: value.accountNumber,
+      bank: value.bank,
+      bic: value.bic,
+      corresp: value.corresp
+    }
+    const newBalance = balance - value.amount;
+    handleLoadNewPayment({
+      id, 
+      name, 
+      comment, 
+      date, 
+      status, 
+      amount, 
+      details, 
+      balance: newBalance});
   };
 
   const list = paylist

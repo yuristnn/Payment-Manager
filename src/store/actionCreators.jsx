@@ -135,6 +135,44 @@ export const handleNewPayment = () => ({
   payload: { isOpenNew: true },
 });
 
+export const handleLoadNewPayment = payload => dispatch => {
+  const {
+    id,
+    name,
+    comment,
+    date,
+    status,
+    amount,
+    details,
+    balance
+  } = payload;
+
+  dispatch(handleCancelPayment())
+
+  const paymentData = {
+    id,
+    name,
+    comment,
+    date,
+    status,
+    amount,
+    details,
+  };
+
+  firebase
+    .database()
+    .ref(firebase.auth().currentUser.uid)
+    .child('paylist')
+    .push(paymentData);
+
+  firebase
+    .database()
+    .ref(firebase.auth().currentUser.uid + '/balance')
+    .set(balance);
+  
+  dispatch(loadState())
+} 
+
 export const handleCancelPayment = () => ({
   type: HANDLE_IS_OPEN_NEW_PAYMENT,
   payload: { isOpenNew: false },

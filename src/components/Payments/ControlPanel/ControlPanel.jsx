@@ -18,6 +18,7 @@ import {
 import AddIcon from '@material-ui/icons/Add';
 import TextField from '@material-ui/core/TextField';
 import 'typeface-roboto';
+import 'date-fns';
 
 export const ControlPanel = ({
   paylist,
