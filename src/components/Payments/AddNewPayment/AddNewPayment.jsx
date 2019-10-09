@@ -23,7 +23,6 @@ export const AddNewPayment = ({
   handleCancelPayment,
   balance,
 }) => {
-
   const [name, setName] = useState({ text: '', isEmpty: false });
   const [comment, setComment] = useState('');
   const [date, setDate] = useState(

@@ -1,3 +1,7 @@
+import * as firebase from 'firebase/app';
+import 'firebase/database';
+import 'firebase/auth';
+
 import {
   LOG_IN_USER,
   HANDLE_USER_EXIT,
@@ -11,16 +15,59 @@ import {
   HANDLE_CHANGE_FILTER_STATUS,
   HANDLE_CHANGE_FILTER_DATE_MIN,
   HANDLE_CHANGE_FILTER_DATE_MAX,
-  HANDLE_NEW_PAYMENT,
-  HANDLE_CREATE_PAYMENT,
-  HANDLE_CANCEL_PAYMENT,
+  HANDLE_IS_OPEN_NEW_PAYMENT,
   HANDLE_CLOSE_INFO,
 } from './constants';
 
-export const logInUser = () => ({ type: LOG_IN_USER });
+export const logInUser = () => ({
+  type: LOG_IN_USER,
+  payload: { isAuthorized: true },
+});
 
-export const handleUserExit = () => ({ type: HANDLE_USER_EXIT });
-export const loadState = payload => ({ type: LOAD_STATE, payload });
+export const handleUserExit = () => ({
+  type: HANDLE_USER_EXIT,
+  payload: {
+    isAuthorized: false,
+    email: '',
+    balance: 0,
+    paylist: [],
+  },
+});
+
+export const loadState = () => dispatch => {
+  const userId = firebase.auth().currentUser.uid;
+  firebase
+    .database()
+    .ref(`${userId}/`)
+    .once('value')
+    .then(function(obj) {
+      const data = Object.values(obj.val().paylist).sort(
+        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+      );
+      const arrAmount = data.map(item => item.amount).sort((a, b) => a - b);
+      const arrDate = data
+        .map(item => item.date)
+        .sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
+      dispatch({
+        type: LOAD_STATE,
+        payload: {
+          email: obj.val().email,
+          balance: obj.val().balance,
+          paylist: data,
+          filterAmount: {
+            arrAmount,
+            min: arrAmount[0],
+            max: arrAmount[arrAmount.length - 1],
+          },
+          filterDate: {
+            arrDate,
+            min: arrDate[0],
+            max: arrDate[arrDate.length - 1],
+          },
+        },
+      });
+    });
+};
 export const handleChangeSearch = payload => dispatch => {
   const { text, paylist } = payload;
   const arrSearch = [];
@@ -40,7 +87,12 @@ export const handleChangeSearch = payload => dispatch => {
     payload: { arrSearch, isOpenSearch },
   });
 };
-export const handleChooseSearch = () => ({ type: HANDLE_CHOOSE_SEARCH });
+
+export const handleChooseSearch = () => ({
+  type: HANDLE_CHOOSE_SEARCH,
+  payload: { isOpenSearch: false },
+});
+
 export const handleOpenInfo = payload => dispatch => {
   const { id, paylist } = payload;
   const infoCard = paylist.filter(item => item.id === id)[0];
@@ -50,33 +102,44 @@ export const handleOpenInfo = payload => dispatch => {
     payload: { isOpenInfo, infoCard },
   });
 };
+
 export const handleCloseInfo = () => ({ type: HANDLE_CLOSE_INFO });
+
 export const handleChangeFilterAmountMin = payload => ({
   type: HANDLE_CHANGE_FILTER_AMOUNT_MIN,
   payload,
 });
+
 export const handleChangeFilterAmountMax = payload => ({
   type: HANDLE_CHANGE_FILTER_AMOUNT_MAX,
   payload,
 });
+
 export const handleChangeFilterStatus = payload => ({
   type: HANDLE_CHANGE_FILTER_STATUS,
   payload,
 });
+
 export const handleChangeFilterDateMin = payload => ({
   type: HANDLE_CHANGE_FILTER_DATE_MIN,
   payload: new Date(payload),
 });
+
 export const handleChangeFilterDateMax = payload => ({
   type: HANDLE_CHANGE_FILTER_DATE_MAX,
   payload: new Date(payload),
 });
-export const handleNewPayment = () => ({ type: HANDLE_NEW_PAYMENT });
-export const handleCreatePayment = payload => ({
-  type: HANDLE_CREATE_PAYMENT,
-  payload,
+
+export const handleNewPayment = () => ({
+  type: HANDLE_IS_OPEN_NEW_PAYMENT,
+  payload: { isOpenNew: true },
 });
-export const handleCancelPayment = () => ({ type: HANDLE_CANCEL_PAYMENT });
+
+export const handleCancelPayment = () => ({
+  type: HANDLE_IS_OPEN_NEW_PAYMENT,
+  payload: { isOpenNew: false },
+});
+
 export const handleSortDirection = payload => dispatch => {
   let paylist = [];
   if (payload.key === 0) {

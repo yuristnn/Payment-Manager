@@ -12,9 +12,7 @@ import {
   HANDLE_CHANGE_FILTER_STATUS,
   HANDLE_CHANGE_FILTER_DATE_MIN,
   HANDLE_CHANGE_FILTER_DATE_MAX,
-  HANDLE_NEW_PAYMENT,
-  HANDLE_CREATE_PAYMENT,
-  HANDLE_CANCEL_PAYMENT,
+  HANDLE_IS_OPEN_NEW_PAYMENT,
 } from './constants';
 
 const initialState = {
@@ -55,19 +53,20 @@ const initialState = {
 
 export default (state = initialState, action) => {
   const payload = action.payload;
+
   switch (action.type) {
     case LOG_IN_USER:
       return {
         ...state,
-        isAuthorized: true,
+        isAuthorized: payload.isAuthorized,
       };
     case HANDLE_USER_EXIT:
       return {
         ...state,
-        isAuthorized: false,
-        email: '',
-        balance: 0,
-        paylist: [],
+        isAuthorized: payload.isAuthorized,
+        email: payload.email,
+        balance: payload.balance,
+        paylist: payload.paylist,
       };
     case LOAD_STATE:
       return {
@@ -77,22 +76,22 @@ export default (state = initialState, action) => {
         balance: payload.balance,
         filterAmount: {
           ...state.filterAmount,
-          arrAmount: payload.arrAmount,
-          min: payload.arrAmount[0],
-          max: payload.arrAmount[payload.arrAmount.length - 1],
+          arrAmount: payload.filterAmount.arrAmount,
+          min: payload.filterAmount.min,
+          max: payload.filterAmount.max,
         },
         filterDate: {
           ...state.filterDate,
-          arrDate: payload.arrDate,
-          min: payload.arrDate[0],
-          max: payload.arrDate[payload.arrDate.length - 1],
+          arrDate: payload.filterDate.arrDate,
+          min: payload.filterDate.min,
+          max: payload.filterDate.max,
         },
       };
 
     case HANDLE_CHOOSE_SEARCH:
       return {
         ...state,
-        isOpenSearch: false,
+        isOpenSearch: payload.isOpenSearch,
       };
     case HANDLE_CHANGE_SEARCH:
       return {
@@ -101,11 +100,10 @@ export default (state = initialState, action) => {
         search: payload.arrSearch,
       };
     case HANDLE_OPEN_INFO:
-      const { isOpenInfo, infoCard } = payload;
       return {
         ...state,
-        isOpenInfo,
-        infoCard,
+        isOpenInfo: payload.isOpenInfo,
+        infoCard: payload.infoCard,
       };
     case HANDLE_CLOSE_INFO:
       return {
@@ -134,18 +132,13 @@ export default (state = initialState, action) => {
         ...state,
         filterDate: { ...state.filterDate, max: payload },
       };
-    case HANDLE_NEW_PAYMENT:
-      return { ...state, isOpenNew: true };
-    case HANDLE_CREATE_PAYMENT:
-      return { ...state, isOpenNew: false };
-    case HANDLE_CANCEL_PAYMENT:
-      return { ...state, isOpenNew: false };
+    case HANDLE_IS_OPEN_NEW_PAYMENT:
+      return { ...state, isOpenNew: payload.isOpenNew };
     case HANDLE_SORT_DIRECTION:
-      const { sortList, paylist } = payload;
       return {
         ...state,
-        sortList,
-        paylist,
+        sortList: payload.sortList,
+        paylist: payload.paylist,
       };
 
     default:

@@ -2,7 +2,6 @@ import { styled } from '@material-ui/styles';
 import Box from '@material-ui/core/Box';
 import Paper from '@material-ui/core/Paper';
 import TableRow from '@material-ui/core/TableRow';
-import Typography from '@material-ui/core/Typography';
 
 export const Wrapper = styled(Box)({
   position: 'absolute',

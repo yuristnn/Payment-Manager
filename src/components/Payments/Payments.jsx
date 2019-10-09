@@ -41,52 +41,8 @@ export const Payments = ({
   handleSortDirection,
 }) => {
   useEffect(() => {
-    const userId = firebase.auth().currentUser.uid;
-    firebase
-      .database()
-      .ref(`${userId}/`)
-      .once('value')
-      .then(function(obj) {
-        const data = Object.values(obj.val().paylist).sort(
-          (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
-        );
-        const arrAmount = data.map(item => item.amount).sort((a, b) => a - b);
-        const arrDate = data
-          .map(item => item.date)
-          .sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
-        loadState({
-          email: obj.val().email,
-          balance: obj.val().balance,
-          paylist: data,
-          arrAmount,
-          arrDate,
-        });
-      });
+    loadState();
   }, [loadState]);
-
-  const load = () => {
-    const userId = firebase.auth().currentUser.uid;
-    firebase
-      .database()
-      .ref(`${userId}/`)
-      .once('value')
-      .then(function(obj) {
-        const data = Object.values(obj.val().paylist).sort(
-          (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
-        );
-        const arrAmount = data.map(item => item.amount).sort((a, b) => a - b);
-        const arrDate = data
-          .map(item => item.date)
-          .sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
-        loadState({
-          email: obj.val().email,
-          balance: obj.val().balance,
-          paylist: data,
-          arrAmount,
-          arrDate,
-        });
-      });
-  };
 
   const loadNewPayment = item => {
     handleCancelPayment();
@@ -118,7 +74,7 @@ export const Payments = ({
       .ref(firebase.auth().currentUser.uid + '/balance')
       .set(newBalance);
 
-    load();
+    loadState();
   };
 
   const list = paylist

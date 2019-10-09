@@ -10,7 +10,6 @@ import {
   handleChangeFilterDateMin,
   handleChangeFilterDateMax,
   handleNewPayment,
-  handleCreatePayment,
   handleCancelPayment,
   handleUserExit,
   handleCloseInfo,
@@ -58,7 +57,6 @@ const mapDispatchToProps = {
   handleChangeFilterDateMax,
 
   handleNewPayment,
-  handleCreatePayment,
   handleCancelPayment,
 };
 
