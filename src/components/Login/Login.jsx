@@ -17,11 +17,11 @@ export const Login = ({ logInUser }) => {
   const [isErrorPassword, setIsErrorPassword] = useState(false);
   const [isErrorUserNotFound, setIsErrorUserNotFound] = useState(false);
 
-  const handlerUserlogin = async () => {
+  const handlerUserlogin = () => {
     setIsErrorEmail(false);
     setIsErrorPassword(false);
     setIsErrorUserNotFound(false);
-    await firebase
+    firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
       .catch(function(error) {
@@ -39,6 +39,13 @@ export const Login = ({ logInUser }) => {
       if (user) logInUser();
     });
   };
+
+  const sendOnKey = event => {
+    if (event.keyCode === 13) {
+      handlerUserlogin();
+    }
+  };
+
   return (
     <Wrapper>
       <LoginForm autoComplete="off">
@@ -64,6 +71,7 @@ export const Login = ({ logInUser }) => {
           margin="normal"
           variant="outlined"
           onChange={event => setEmail(event.target.value)}
+          onKeyDown={event => sendOnKey(event)}
         />
         <Input
           required
@@ -77,6 +85,7 @@ export const Login = ({ logInUser }) => {
           margin="normal"
           variant="outlined"
           onChange={event => setPassword(event.target.value)}
+          onKeyDown={event => sendOnKey(event)}
         />
         <LoginButton
           variant="contained"
