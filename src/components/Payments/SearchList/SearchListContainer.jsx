@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import {
-  handleChooseSearch,
+  handleCloseSearch,
   handleOpenInfo,
 } from '../../../store/actionCreators';
 import { SearchList } from './SearchList';
@@ -11,7 +11,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  handleChooseSearch,
+  handleCloseSearch,
   handleOpenInfo,
 };
 

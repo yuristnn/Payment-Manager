@@ -35,33 +35,31 @@ export const Payments = ({
   handleSortDirection,
   handleLoadNewPayment,
 }) => {
-
-  useEffect(() => { loadState() }, [loadState]);
+  useEffect(() => {
+    loadState();
+  }, [loadState]);
 
   const loadNewPayment = value => {
     const id = paylist.length + 1;
-    const {name,
-      comment,
-      date,
-      status,
-      amount} = value;
+    const { name, comment, date, status, amount } = value;
     const details = {
       receiver: value.receiver,
       accountNumber: value.accountNumber,
       bank: value.bank,
       bic: value.bic,
-      corresp: value.corresp
-    }
+      corresp: value.corresp,
+    };
     const newBalance = balance - value.amount;
     handleLoadNewPayment({
-      id, 
-      name, 
-      comment, 
-      date, 
-      status, 
-      amount, 
-      details, 
-      balance: newBalance});
+      id,
+      name,
+      comment,
+      date,
+      status,
+      amount,
+      details,
+      balance: newBalance,
+    });
   };
 
   const list = paylist

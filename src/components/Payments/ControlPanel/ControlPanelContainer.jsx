@@ -7,6 +7,7 @@ import {
   handleChangeFilterDateMax,
   handleNewPayment,
   handleChangeSearch,
+  handleOpenSearch,
 } from '../../../store/actionCreators';
 import { ControlPanel } from './ControlPanel';
 
@@ -25,6 +26,7 @@ const mapDispatchToProps = {
   handleChangeFilterDateMax,
   handleNewPayment,
   handleChangeSearch,
+  handleOpenSearch,
 };
 
 export default connect(

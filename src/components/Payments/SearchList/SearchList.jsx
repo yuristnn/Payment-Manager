@@ -12,7 +12,7 @@ import {
 } from './common/styles';
 
 export const SearchList = ({
-  handleChooseSearch,
+  handleCloseSearch,
   search,
   paylist,
   handleOpenInfo,
@@ -39,7 +39,7 @@ export const SearchList = ({
       ) : (
         <TextNoResult>Нет результатов</TextNoResult>
       )}
-      <Close onClick={handleChooseSearch} />
+      <Close onClick={handleCloseSearch} />
     </TableSearchWrapper>
   );
 };

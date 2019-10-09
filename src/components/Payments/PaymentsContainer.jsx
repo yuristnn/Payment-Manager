@@ -13,7 +13,7 @@ import {
   handleCancelPayment,
   handleUserExit,
   handleCloseInfo,
-  handleLoadNewPayment
+  handleLoadNewPayment,
 } from '../../store/actionCreators';
 import { Payments } from './Payments';
 
@@ -59,7 +59,7 @@ const mapDispatchToProps = {
 
   handleNewPayment,
   handleCancelPayment,
-  handleLoadNewPayment
+  handleLoadNewPayment,
 };
 
 export default connect(

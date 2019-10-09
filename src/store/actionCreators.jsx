@@ -8,7 +8,7 @@ import {
   LOAD_STATE,
   HANDLE_SORT_DIRECTION,
   HANDLE_CHANGE_SEARCH,
-  HANDLE_CHOOSE_SEARCH,
+  HANDLE_IS_OPEN_SEARCH,
   HANDLE_OPEN_INFO,
   HANDLE_CHANGE_FILTER_AMOUNT_MIN,
   HANDLE_CHANGE_FILTER_AMOUNT_MAX,
@@ -88,9 +88,14 @@ export const handleChangeSearch = payload => dispatch => {
   });
 };
 
-export const handleChooseSearch = () => ({
-  type: HANDLE_CHOOSE_SEARCH,
+export const handleCloseSearch = () => ({
+  type: HANDLE_IS_OPEN_SEARCH,
   payload: { isOpenSearch: false },
+});
+
+export const handleOpenSearch = () => ({
+  type: HANDLE_IS_OPEN_SEARCH,
+  payload: { isOpenSearch: true },
 });
 
 export const handleOpenInfo = payload => dispatch => {
@@ -136,18 +141,9 @@ export const handleNewPayment = () => ({
 });
 
 export const handleLoadNewPayment = payload => dispatch => {
-  const {
-    id,
-    name,
-    comment,
-    date,
-    status,
-    amount,
-    details,
-    balance
-  } = payload;
+  const { id, name, comment, date, status, amount, details, balance } = payload;
 
-  dispatch(handleCancelPayment())
+  dispatch(handleCancelPayment());
 
   const paymentData = {
     id,
@@ -169,9 +165,9 @@ export const handleLoadNewPayment = payload => dispatch => {
     .database()
     .ref(firebase.auth().currentUser.uid + '/balance')
     .set(balance);
-  
-  dispatch(loadState())
-} 
+
+  dispatch(loadState());
+};
 
 export const handleCancelPayment = () => ({
   type: HANDLE_IS_OPEN_NEW_PAYMENT,

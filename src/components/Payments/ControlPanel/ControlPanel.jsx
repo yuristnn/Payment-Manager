@@ -32,7 +32,12 @@ export const ControlPanel = ({
   handleChangeFilterDateMax,
   handleNewPayment,
   handleChangeSearch,
+  handleOpenSearch,
 }) => {
+  const onKeyPress = event => {
+    event.keyCode === 13 && handleOpenSearch();
+  };
+
   return (
     <ControlPanelWrapper>
       <NewPayment color="primary" onClick={handleNewPayment}>
@@ -96,6 +101,7 @@ export const ControlPanel = ({
         <TextField
           placeholder="Поиск..."
           type="search"
+          onKeyDown={event => onKeyPress(event)}
           onChange={event =>
             handleChangeSearch({
               text: event.target.value.toLowerCase(),

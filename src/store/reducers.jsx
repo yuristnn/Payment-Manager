@@ -4,7 +4,7 @@ import {
   LOAD_STATE,
   HANDLE_SORT_DIRECTION,
   HANDLE_CHANGE_SEARCH,
-  HANDLE_CHOOSE_SEARCH,
+  HANDLE_IS_OPEN_SEARCH,
   HANDLE_OPEN_INFO,
   HANDLE_CLOSE_INFO,
   HANDLE_CHANGE_FILTER_AMOUNT_MIN,
@@ -88,7 +88,7 @@ export default (state = initialState, action) => {
         },
       };
 
-    case HANDLE_CHOOSE_SEARCH:
+    case HANDLE_IS_OPEN_SEARCH:
       return {
         ...state,
         isOpenSearch: payload.isOpenSearch,
