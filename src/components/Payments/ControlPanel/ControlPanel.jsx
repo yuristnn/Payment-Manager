@@ -1,3 +1,4 @@
+// import PropTypes from 'prop-types';
 import React from 'react';
 import {
   ControlPanelWrapper,
@@ -113,3 +114,27 @@ export const ControlPanel = ({
     </ControlPanelWrapper>
   );
 };
+
+// ControlPanel.propTypes = {
+//   filterAmount: PropTypes.shape({
+//     arrAmount: PropTypes.array,
+//     min: PropTypes.number,
+//     max: PropTypes.number
+//   }),
+//   filterDate: PropTypes.shape({
+//     arrDate: PropTypes.array,
+//     min: PropTypes.string,
+//     max: PropTypes.string,
+//   }),
+//   filterStatus: PropTypes.string,
+//   paylist: PropTypes.array,
+  
+//   handleChangeFilterAmountMin: PropTypes.func,
+//   handleChangeFilterAmountMax: PropTypes.func,
+//   handleChangeFilterStatus: PropTypes.func,
+//   handleChangeFilterDateMin: PropTypes.func,
+//   handleChangeFilterDateMax: PropTypes.func,
+//   handleNewPayment: PropTypes.func,
+//   handleChangeSearch: PropTypes.func,
+//   handleOpenSearch: PropTypes.func,
+// };

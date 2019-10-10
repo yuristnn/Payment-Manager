@@ -40,8 +40,8 @@ const initialState = {
 
   filterDate: {
     arrDate: [],
-    min: 0,
-    max: 0,
+    min: '0',
+    max: '0',
   },
   filterAmount: {
     arrAmount: [],

@@ -1,3 +1,4 @@
+// import PropTypes from 'prop-types';
 import React from 'react';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -62,3 +63,8 @@ export const InfoCard = ({ handleCloseInfo, infoCard }) => {
     </Card>
   );
 };
+
+// InfoCard.propTypes = {
+//   infoCard: PropTypes.object,
+//   handleCloseInfo: PropTypes.func,
+// };

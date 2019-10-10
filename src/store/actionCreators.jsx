@@ -24,7 +24,9 @@ export const logInUser = () => ({
   payload: { isAuthorized: true },
 });
 
-export const handleUserExit = () => ({
+export const handleUserExit = () => dispatch => {
+  firebase.auth().signOut();
+  dispatch({
   type: HANDLE_USER_EXIT,
   payload: {
     isAuthorized: false,
@@ -33,6 +35,7 @@ export const handleUserExit = () => ({
     paylist: [],
   },
 });
+}
 
 export const loadState = () => dispatch => {
   const userId = firebase.auth().currentUser.uid;

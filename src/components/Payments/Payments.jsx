@@ -1,3 +1,4 @@
+// import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -124,3 +125,27 @@ export const Payments = ({
     </Wrapper>
   );
 };
+
+// Payments.propTypes = {
+//   balance: PropTypes.number,
+//   isOpenInfo: PropTypes.bool,
+//   isOpenSearch: PropTypes.bool,
+//   filterAmount: PropTypes.shape({
+//     arrAmount: PropTypes.array,
+//     min: PropTypes.number,
+//     max: PropTypes.number
+//   }),
+//   filterDate: PropTypes.shape({
+//     arrDate: PropTypes.array,
+//     min: PropTypes.string,
+//     max: PropTypes.string,
+//   }),
+//   filterStatus: PropTypes.string,
+//   paylist: PropTypes.array,
+//   isOpenNew: PropTypes.bool,
+//   sortList: PropTypes.array,
+//   loadState: PropTypes.func,
+//   handleOpenInfo: PropTypes.func,
+//   handleSortDirection: PropTypes.func,
+//   handleLoadNewPayment: PropTypes.func,
+// };

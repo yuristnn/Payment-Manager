@@ -1,3 +1,4 @@
+// import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -281,3 +282,10 @@ export const AddNewPayment = ({
     </AddNewPaymentForm>
   );
 };
+
+// AddNewPayment.propTypes = {
+//   balance: PropTypes.string,
+  
+//   loadNewPayment: PropTypes.func,
+//   handleCancelPayment: PropTypes.func,
+// };

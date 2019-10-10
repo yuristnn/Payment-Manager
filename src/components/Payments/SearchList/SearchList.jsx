@@ -1,3 +1,4 @@
+// import PropTypes from 'prop-types';
 import React from 'react';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -12,10 +13,11 @@ import {
 } from './common/styles';
 
 export const SearchList = ({
-  handleCloseSearch,
   search,
   paylist,
+  
   handleOpenInfo,
+  handleCloseSearch,
 }) => {
   return (
     <TableSearchWrapper>
@@ -43,3 +45,11 @@ export const SearchList = ({
     </TableSearchWrapper>
   );
 };
+
+// SearchList.propTypes = {
+//   search: PropTypes.array,
+//   filterStatus: PropTypes.string,
+//   paylist: PropTypes.array,
+//   loadState: PropTypes.func,
+//   handleOpenInfo: PropTypes.func,
+// };
